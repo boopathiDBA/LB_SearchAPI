@@ -1,0 +1,19 @@
+meta {
+  name: User details - With incorrect auth token
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/users/366
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 401
+}

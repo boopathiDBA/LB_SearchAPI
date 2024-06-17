@@ -1,0 +1,21 @@
+meta {
+  name: Search Affinities - user_id only
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/affinities
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "user_id": 105427
+  }
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,30 @@
+meta {
+  name: Get top sale events - filter by current
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/top_lists/sale_events?current=true
+  body: none
+  auth: none
+}
+
+query {
+  current: true
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gt 0
+}
+
+tests {
+  test("now is between start_at and expire_at", () => {
+      const now = new Date()
+      const startAt = new Date(res.body.data[0].attributes.start_at)
+      const expireAt = new Date(res.body.data[0].attributes.expire_at)
+      expect(now > startAt && now < expireAt).to.eql(true)
+  })
+}

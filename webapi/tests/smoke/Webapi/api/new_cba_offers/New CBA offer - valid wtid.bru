@@ -1,0 +1,67 @@
+meta {
+  name: New CBA offer - valid wtid
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/new_cba_offers
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+  wtid: {{wtid}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined ["data"]
+  res.body.included: isDefined
+  res.body.included.length: gte 1
+}
+
+tests {
+  test("sale events should contain expected keys", () => {
+    for (const item of res.body.included) {
+      if (item.type === "sale_event") {
+        expect(item).to.contain.keys(["id", "type", "attributes"])
+        expect(item.attributes).to.contain.keys([
+          "id", "name", "start_at", "expire_at", "slug", "archived_at", "brand_name",
+          "store_name", "sale_event_image", "url", "offer_text", "impressions_count",
+          "fixed_global_score", "type", "upvotes_count", "downvotes_count", "comments_count",
+          "click_through_count", "can_join_sale", "end_in", "is_cba_exclusive"
+        ])
+        expect(item.links).to.contain.keys(["sale_event_url", "image_url"])
+      }
+    }
+  })
+  
+  test("vouchers should contain expected keys", () => {
+    for (const item of res.body.included) {
+      if (item.type === "coupon") {
+        expect(item).to.contain.keys(["id", "type", "attributes"])
+  
+        expect(item.attributes).to.contain.keys([
+          "available_for_use","claimed_code_count","click_through_count","comments_count",
+          "created_at_label","downvotes_count","impressions_count","is_cba_exclusive",
+          "is_cba_icp","limit_per_customer","published_at_label","running_low_is_met",
+          "unclaimed_code_count","updated_at_label","upvotes_count"
+        ])
+        expect(item.links).to.contain.keys(["coupon_url", "image_url"])
+      }
+    }
+  })
+
+  test("vouchers labels to be non empty", () => {
+    for (const item of res.body.included) {
+      if (item.type === "coupon") {
+        for (const label of ["created_at_label", "published_at_label", "updated_at_label"]) {
+          expect(item.attributes[label]).to.have.lengthOf.greaterThan(0)
+        }
+      }
+    }
+  })
+}
+

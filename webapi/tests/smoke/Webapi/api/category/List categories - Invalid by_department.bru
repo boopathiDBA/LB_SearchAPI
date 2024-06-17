@@ -1,0 +1,27 @@
+meta {
+  name: List categories - Invalid by_department
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/categories?by_department=99999&by_active=true
+  body: none
+  auth: none
+}
+
+query {
+  by_department: 99999
+  by_active: true
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: length 0
+  res.body.meta: isJson 
+  res.body.meta.order: length 0
+}

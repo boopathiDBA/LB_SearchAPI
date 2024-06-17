@@ -1,0 +1,29 @@
+name: lint
+
+on:
+  push:
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  lint-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⚙️  Check out repository code
+        uses: actions/checkout@v3
+
+      - name: 🐍  Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          architecture: 'x64'
+
+      - name: 🐍  Install development deps
+        run: make install_deps_dev
+
+      - name: 📒  Check Python linting
+        run: make lint_check
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."

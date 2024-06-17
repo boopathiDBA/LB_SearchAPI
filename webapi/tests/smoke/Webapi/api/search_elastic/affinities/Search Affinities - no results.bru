@@ -1,0 +1,39 @@
+meta {
+  name: Search Affinities - no results
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/affinities
+  body: json
+  auth: none
+}
+
+headers {
+  ~: 
+}
+
+body:json {
+  {
+      "user_id": 99999999
+  }
+}
+
+assert {
+  res.status: eq 200
+
+  res.body.data.length: eq 0
+}
+
+tests {
+  // pm.test("status code matches", () => {
+  //     pm.response.to.have.status(200)
+  // })
+  // 
+  // pm.test("status code matches", () => {
+  //     pm.expect(pm.response.json()).to.deep.equal({
+  //         "data": []
+  //     })
+  // })
+}

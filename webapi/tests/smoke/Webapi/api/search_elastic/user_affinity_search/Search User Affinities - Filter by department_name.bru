@@ -1,0 +1,43 @@
+meta {
+  name: Search User Affinities - Filter by department_name
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/user_affinity_search
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "department_names": ["Fashion", "Health & Beauty"]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.sale_events.length: gt 0
+}
+
+tests {
+  // pm.test("status code matches", () => {
+  //     pm.response.to.have.status(200)
+  // })
+  // 
+  // const jsonData = pm.response.json();
+  // 
+  // pm.test("expected body", () => {
+  //     pm.expect(jsonData).to.contain.keys(["deals", "vouchers", "sale_events"])
+  // 
+  //     pm.expect(jsonData.sale_events).length.at.least(1)
+  // })
+  // 
+  // const filter_list = JSON.parse(pm.request.body.raw).department_names
+  // pm.test(`sale_event's department_name is one of [${filter_list.join(", ")}]`, () => {
+  //     _.each(jsonData.sale_events, (sale_event) => {
+  //         pm.expect(filter_list).to.include(sale_event.department_name)
+  //     })
+  // })
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Get top brands - by followed user
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/top_lists/brands?by_followed_user=1050
+  body: none
+  auth: none
+}
+
+query {
+  by_followed_user: 1050
+}
+
+assert {
+  res.status: eq 200
+  res("data.attributes.followed"): notContains false
+}

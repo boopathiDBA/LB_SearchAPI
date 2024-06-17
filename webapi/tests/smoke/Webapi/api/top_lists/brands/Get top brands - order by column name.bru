@@ -1,0 +1,28 @@
+meta {
+  name: Get top brands - order by column name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/top_lists/brands?by_order[column]=name&per_page=2
+  body: none
+  auth: none
+}
+
+query {
+  by_order[column]: name
+}
+
+assert {
+  res.status: eq 200
+}
+
+
+tests {
+  test("results are sorted by name in ascending order", () => {
+      const brandNames = res.body.data.map(brand => brand.attributes.name)
+      const sortedBrandName = [...brandNames].sort()
+      expect(brandNames).to.eql(sortedBrandName)
+  })
+}

@@ -1,0 +1,20 @@
+meta {
+  name: List departments - filter by_followed
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/departments?by_followed=883
+  body: none
+  auth: none
+}
+
+query {
+  by_followed: 883
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.length: gt 0
+}

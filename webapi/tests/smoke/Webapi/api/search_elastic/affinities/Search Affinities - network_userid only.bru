@@ -1,0 +1,21 @@
+meta {
+  name: Search Affinities - network_userid only
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/affinities
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "network_userid": "1e4ed736-5b09-45dc-966d-990a4dba133f"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

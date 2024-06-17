@@ -1,0 +1,15 @@
+meta {
+  name: Get brand null response
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/brands/null-brand
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}

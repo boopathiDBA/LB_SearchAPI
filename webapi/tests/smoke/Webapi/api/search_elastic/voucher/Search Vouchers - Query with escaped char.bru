@@ -1,0 +1,30 @@
+meta {
+  name: Search Vouchers - Query with escaped char
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/voucher
+  body: json
+  auth: none
+}
+
+headers {
+  ~: 
+}
+
+body:json {
+  {
+    "query": "Lenovo L24e-40 23.8\" Full HD Monitor",
+    "from": 0,
+    "order": null,
+    "per_page": 48,
+  
+    "value": null
+  }
+}
+
+assert {
+  res.status: eq 200
+}

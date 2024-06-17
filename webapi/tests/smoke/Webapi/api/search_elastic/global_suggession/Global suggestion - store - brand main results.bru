@@ -1,0 +1,41 @@
+meta {
+  name: Global suggestion - store - brand main results
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/global_suggessions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "query": "nik"
+  }
+}
+
+assert {
+  res.status: eq 201
+
+  res.body.suggestions: isJson
+
+  res.body.suggestions.store_main: isJson
+  res.body.suggestions.store_main.data.length: gt 0
+  res.body.suggestions.store_main.data[0]._index: isString
+  res.body.suggestions.store_main.data[0]._id: isString
+  res.body.suggestions.store_main.data[0]._source: isJson
+  res.body.suggestions.store_main.data[0]._source.store_name: isString
+  res.body.suggestions.store_main.data[0]._source.store_slug: isDefined
+  res.body.suggestions.store_main.data[0]._source.store_logo: isString
+
+  res.body.suggestions.brand_main: isJson
+  res.body.suggestions.brand_main.data.length: gt 0
+  res.body.suggestions.brand_main.data[0]._index: isString
+  res.body.suggestions.brand_main.data[0]._id: isString
+  res.body.suggestions.brand_main.data[0]._source: isJson
+  res.body.suggestions.brand_main.data[0]._source.brand_name: isString
+  res.body.suggestions.brand_main.data[0]._source.brand_slug: isDefined
+  res.body.suggestions.brand_main.data[0]._source.brand_logo: isString
+}

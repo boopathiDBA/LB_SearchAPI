@@ -1,0 +1,21 @@
+meta {
+  name: Get top coupons - by followed user (slug)
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_followed_user=webapi-automated-test-user-uat
+  body: none
+  auth: none
+}
+
+query {
+  by_followed_user: webapi-automated-test-user-uat
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 0
+}

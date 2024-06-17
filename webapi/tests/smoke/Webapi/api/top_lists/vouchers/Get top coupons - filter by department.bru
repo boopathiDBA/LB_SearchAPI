@@ -1,0 +1,21 @@
+meta {
+  name: Get top coupons - filter by department
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_department=fashion
+  body: none
+  auth: none
+}
+
+query {
+  by_department: fashion
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 0
+}

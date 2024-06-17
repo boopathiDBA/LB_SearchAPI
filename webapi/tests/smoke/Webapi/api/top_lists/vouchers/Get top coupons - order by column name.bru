@@ -1,0 +1,30 @@
+meta {
+  name: Get top coupons - order by column name
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_order[column]=name&per_page=2
+  body: none
+  auth: none
+}
+
+query {
+  by_order[column]: name
+  per_page: 2
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 0
+}
+
+tests {
+  test("results are sorted by name in ascending order", () => {
+      const itemNames = res.body.data.map(item => item.attributes.name)
+      const sortedItemNames = [...itemNames].sort()
+      expect(itemNames).to.eql(sortedItemNames)
+  })
+}

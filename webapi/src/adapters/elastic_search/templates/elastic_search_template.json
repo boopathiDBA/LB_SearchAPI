@@ -1,0 +1,12 @@
+{
+  "id": "voucher_search",
+  "params": {
+    "query": "{{args.query}}",
+    "size": "{{args.per_page}}",
+    "from": "{{args.from_field}}",
+    "sort": [],
+    "filter": {
+      "filter": []
+    }
+  }
+}

@@ -1,0 +1,3 @@
+# By default, files are owned by backend and frontend.
+# If a more specific rule applies further down, that will win.
+*               @little-birdie/core-product @little-birdie/webapi-destination

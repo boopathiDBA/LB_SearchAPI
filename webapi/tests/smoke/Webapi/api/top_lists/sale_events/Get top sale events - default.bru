@@ -1,0 +1,36 @@
+meta {
+  name: Get top sale events - default
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/top_lists/sale_events
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gt 0
+  res.body.meta: isJson
+  res.body.meta.order.length: gt 0
+  res.body.data[0].attributes: isJson
+  res.body.data[0].id: isString
+  res.body.data[0].type: isString
+  res.body.data[0].type: eq sale_event
+  res.body.data[0].links: isJson
+  res.body.data[0].links.sale_event_url: isString
+  res.body.data[0].links.image_url: isString
+  res.body.data[0].attributes.name: isString
+  res.body.data[0].attributes.slug: isString
+  res.body.data[0].attributes.end_in: isString
+}
+
+tests {
+  test("expire_at is either null or grater than now", () => {
+      const expireAt = new Date(res.body.data[0].attributes.expire_at)
+      expect(expireAt == null || expireAt > new Date()).to.eql(true)
+  })
+}

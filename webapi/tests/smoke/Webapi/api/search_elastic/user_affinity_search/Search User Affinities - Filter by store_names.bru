@@ -1,0 +1,31 @@
+meta {
+  name: Search User Affinities - Filter by store_names
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/user_affinity_search
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "store_names": ["The Good Guys", "Amazon Australia"]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.sale_events.length: gt 0
+}
+
+tests {
+    const filter_list = req.body.store_names
+    test(`sale_event's store_name is one of [${filter_list.join(", ")}]`, () => {
+        for (const sale_event of res.body.sale_events) {
+            expect(filter_list).to.include(sale_event.store_name)
+        }
+    })
+}

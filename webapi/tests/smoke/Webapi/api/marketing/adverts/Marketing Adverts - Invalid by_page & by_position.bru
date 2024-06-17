@@ -1,0 +1,21 @@
+meta {
+  name: Marketing Adverts - Invalid by_page & by_position
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/marketing/adverts?by_page=foo&by_position=buzz
+  body: none
+  auth: none
+}
+
+query {
+  by_page: foo
+  by_position: buzz
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: length 0
+}

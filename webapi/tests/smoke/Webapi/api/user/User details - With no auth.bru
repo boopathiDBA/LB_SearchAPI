@@ -1,0 +1,19 @@
+meta {
+  name: User details - With no auth
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/users/883
+  body: none
+  auth: none
+}
+
+headers {
+  ~X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 200
+}

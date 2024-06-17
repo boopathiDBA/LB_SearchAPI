@@ -1,0 +1,48 @@
+meta {
+  name: Marketing Adverts
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/marketing/adverts
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.length: gte 2
+  res.body.meta: isJson
+  res.body.meta.order: isDefined
+  res.body.data[0].id: isString
+  res.body.data[0].type: eq "advertisement"
+  res.body.data[0].attributes.name: isString
+  res.body.data[0].attributes.location: isDefined
+  res.body.data[0].attributes.size: isString
+  res.body.data[0].attributes.state: isString
+  res.body.data[0].attributes.start_date: isString
+  res.body.data[0].attributes.end_date: isString
+  res.body.data[0].attributes.target: isString
+  res.body.data[0].links: isJson
+  res.body.data[0].links.url: isString
+  res.body.data[0].links.image: isJson
+  res.body.data[0].links.image.url: isString
+  res.body.data[0].links.image.mini: isJson
+  res.body.data[0].links.image.mini.url: isString
+  res.body.data[0].links.image.thumb: isJson
+  res.body.data[0].links.image.thumb.url: isString
+  res.body.data[0].links.image.medium: isJson
+  res.body.data[0].links.image.medium.url: isString
+  res.body.data[0].links.mobile_image: isJson
+  res.body.data[0].links.mobile_image.url: isString
+  res.body.data[0].links.mobile_image.mini: isJson
+  res.body.data[0].links.mobile_image.mini.url: isString
+  res.body.data[0].links.mobile_image.thumb: isJson
+  res.body.data[0].links.mobile_image.thumb.url: isString
+  res.body.data[0].links.mobile_image.medium: isJson
+  res.body.data[0].links.mobile_image.medium.url: isString
+  res.body.data[0].links.mobile_image: isDefined
+  res.body.data[0].links.external_image_url: isDefined
+  res.body.data[0].links.affiliate_url: isString
+}

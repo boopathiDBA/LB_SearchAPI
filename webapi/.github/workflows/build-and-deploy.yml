@@ -1,0 +1,49 @@
+name: build-and-deploy
+
+env:
+  ENV: ${{ github.ref == 'refs/heads/main' && 'uat' || 'uat' }}
+  AWS_REGION: 'ap-southeast-2'
+
+on:
+  push:
+    paths:
+      - '!**'
+      - 'src/**'
+      - 'infra/aws/gateway/**'
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+jobs:
+
+  build-python:
+    runs-on: ${{ github.ref == 'refs/heads/main' && 'wuat-ec2' || 'wuat-ec2' }}
+    environment: uat
+
+    steps:
+
+      - name: ⚙️  Check out repository code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref == 'refs/heads/main' && 'main' || github.ref }}
+
+      - name: 📋 List directory
+        run: |
+          ls -ltra
+
+      - name: 🔑 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: 🐖 Waypoint build and push
+        run: |
+          make waypoint
+
+      - name: Apply infrastructure
+        run: |
+          cd infra/aws/gateway
+          make deploy
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."

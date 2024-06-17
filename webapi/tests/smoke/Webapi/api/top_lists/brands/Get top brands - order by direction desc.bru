@@ -1,0 +1,29 @@
+meta {
+  name: Get top brands - order by direction desc
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/top_lists/brands?by_order[direction]=desc&by_order[column]=deals_count&per_page=2
+  body: none
+  auth: none
+}
+
+query {
+  by_order[direction]: desc
+  by_order[column]: deals_count
+  per_page: 2
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("results are sorted by deals_count in descending order", () => {
+      const brandDealsCount = res.body.data.map(brand => brand.attributes.deals_count)
+      const sortedDealsCount = [...brandDealsCount].sort().reverse()
+      expect(brandDealsCount).to.eql(sortedDealsCount)
+  })
+}

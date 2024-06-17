@@ -1,0 +1,33 @@
+meta {
+  name: Search User Affinities - Filter by category_names
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/user_affinity_search
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "affinity": {},
+      "category_names": ["Jewellery & Watches", "Women's Activewear", "Audio & Headphones"],
+      "gender": ""
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.sale_events.length: gt 0
+}
+
+tests {
+    const filter_list = req.body.category_names
+    test(`sale_event's category_name is one of [${filter_list.join(", ")}]`, () => {
+        for (const sale_event of res.body.sale_events) {
+            expect(filter_list).to.include(sale_event.category_name)
+        }
+    })
+}

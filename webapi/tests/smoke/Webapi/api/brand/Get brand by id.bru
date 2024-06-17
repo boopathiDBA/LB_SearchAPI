@@ -1,0 +1,32 @@
+meta {
+  name: Get brand by id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/brands/88612
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isJson
+  res.body.data.id: isString
+  res.body.data.type: isString
+  res.body.data.links: isJson
+  res.body.data.links.brand_url: isString
+  res.body.data.links.logo_url: isString
+  res.body.data.attributes: isJson
+  res.body.data.attributes.name: isString
+  res.body.data.attributes.slug: isString
+  res.body.data.attributes.coupons_count: isString
+  res.body.data.attributes.deals_count: isString
+  res.body.data.attributes.followers_count: isString
+  res.body.data.attributes.products_count: isString
+  res.body.data.attributes.sale_events_count: isString
+  res.body.data.attributes.followed: isBoolean
+  res.body.data.attributes.followed: isBoolean
+  res.body.data.attributes.name: isString
+}

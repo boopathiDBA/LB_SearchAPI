@@ -1,0 +1,28 @@
+meta {
+  name: Get top sale events - order by column name
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/top_lists/sale_events?by_order[column]=name&per_page=2
+  body: none
+  auth: none
+}
+
+query {
+  by_order[column]: name
+  per_page: 2
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("results are sorted by name in ascending order", () => {
+      const itemNames = res.body.data.map(item => item.attributes.name)
+      const sortedItemNames = [...itemNames].sort()
+      expect(itemNames).to.eql(sortedItemNames)
+  })
+}

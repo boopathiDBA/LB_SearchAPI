@@ -1,0 +1,29 @@
+name: Test unit tests
+
+on:
+  push:
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+jobs:
+  test-unit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⚙️ Check out repository code
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          architecture: 'x64'
+
+      - name: 🐍 Install deps
+        run: make install_deps_all
+
+      - name: 🔎 Run unit test
+        run: make test_unit
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."

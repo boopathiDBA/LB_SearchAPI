@@ -1,0 +1,36 @@
+meta {
+  name: Search SaleEvents - With Auth Token
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/sale_event
+  body: json
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+body:json {
+  {
+      "query": "off",
+      "per_page": 48,
+      "from": 0,
+      "order": null,
+      "value": null,
+      "store_names": [],
+      "brand_names": [],
+      "department_names": ["Fashion"],
+      "category_names": [],
+      "subcategory_names": []
+  }
+}
+
+assert {
+    res.status: eq 200
+
+    res("data.upvoted"): contains true
+}

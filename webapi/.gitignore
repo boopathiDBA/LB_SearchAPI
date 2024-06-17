@@ -1,0 +1,24 @@
+.terraform*
+.waypoint*
+*.terraform*
+*builds*
+**node_modules
+**__pycache__
+**.serverless
+.DS_Store
+.idea/**
+!.idea/runConfigurations/
+!.idea/runConfigurations/**
+**.requiremnts.zip
+infra/aws/layers/common-python-layer-3-10/package-lock.json
+
+# Virtual environments
+*venv*
+
+data.db
+waypoint-restore.db.lock
+
+.env
+
+# Folder for anything that will not be commited
+.ignore/**

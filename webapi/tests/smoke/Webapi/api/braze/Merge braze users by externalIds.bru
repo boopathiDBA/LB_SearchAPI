@@ -1,0 +1,31 @@
+meta {
+  name: Merge braze users by external ids
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/braze/users/merge
+  body: json
+  auth: none
+}
+
+body:json {
+    {
+  "merge_updates": [
+    {
+      "identifier_to_merge": {
+        "external_id": "966"
+      },
+      "identifier_to_keep": {
+        "external_id": "354a9d6b-a7c5-4b90-8950-2e3b6054e0eb"
+      }
+    }
+  ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.message: eq success
+}

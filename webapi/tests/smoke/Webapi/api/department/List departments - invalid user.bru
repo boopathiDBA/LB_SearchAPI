@@ -1,0 +1,21 @@
+meta {
+  name: List departments - invalid user
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/departments?by_followed=-1
+  body: none
+  auth: none
+}
+
+query {
+  by_followed: -1
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: length 0
+  res.body.meta.order: length 0
+}

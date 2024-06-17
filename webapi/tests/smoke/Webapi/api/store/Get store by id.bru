@@ -1,0 +1,58 @@
+meta {
+  name: Get store by id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/stores/15
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isJson
+  res.body.data.attributes: isJson
+  res.body.data.attributes.slug: eq "big-w"
+  res.body.data.attributes.followed: isFalsy
+  res.body.data.id: isString
+  res.body.data.type: isString
+  res.body.data.links: isJson
+  res.body.data.attributes: isJson
+  res.body.data.attributes.slug: isString
+  res.body.data.attributes.name: isString
+  res.body.data.attributes.upvotes_count: isString
+  res.body.data.attributes.downvotes_count: isString
+  res.body.data.attributes.followers_count: isString
+  res.body.data.attributes.impressions_count: isString
+  res.body.data.attributes.comments_count: isString
+  res.body.data.attributes.deals_count: isString
+  res.body.data.attributes.coupons_count: isString
+  res.body.data.attributes.sale_events_count: isString
+  res.body.data.attributes.products_count: isString
+  res.body.data.attributes.show_history: isBoolean
+  res.body.data.attributes.grey_retailer: isBoolean
+  res.body.data.attributes.custom_description: isString
+  res.body.data.attributes.custom_description: isString
+  res.body.data.attributes.social_twitter_url: isString
+  res.body.data.attributes.social_instagram_url: isString
+  res.body.data.attributes.social_facebook_url: isString
+  res.body.data.attributes.social_youtube_url: isString
+  res.body.data.attributes.social_tiktok_url: isString
+  res.body.data.attributes.social_blog_url: isString
+  res.body.data.attributes.accepted_payments: isDefined
+  res.body.data.attributes.accepted_payments.length: gt 0
+  res.body.data.attributes.header_image: isJson
+  res.body.data.attributes.followed: isBoolean
+  res.body.data.attributes.store_rating: isString
+  res.body.data.attributes.store_reviews: isNumber
+  res.body.data.attributes.website_url: isString
+  res.body.data.attributes.logo_url: isString
+  res.body.data.attributes.header_image.url: isString
+  res.body.data.attributes.header_image.thumb: isJson
+  res.body.data.attributes.header_image.thumb.url: isString
+  res.body.data.links.store_url: isString
+  res.body.data.links.logo_url: isString
+  res.body.data.links.website_url: isString
+}

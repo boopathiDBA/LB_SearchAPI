@@ -1,0 +1,48 @@
+meta {
+  name: Search Affinities - using auth token
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/affinities
+  body: json
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+body:json {
+  {
+      "user_id": 123456,
+      "network_userid": "abc-123"
+  }
+}
+
+assert {
+  res.status: eq 200
+
+  res.body.data: length 1
+  res.body.data[0].user_id: isNumber 
+  res.body.data[0].gender: isString
+
+  res.body.data[0].affinity: isJson
+  res.body.data[0].affinity.brands: isDefined
+  res.body.data[0].affinity.stores: isDefined
+  res.body.data[0].affinity.departments: isDefined
+  res.body.data[0].affinity.categories: isDefined
+  res.body.data[0].affinity.subcategories: isDefined
+
+  res.body.data[0].affinity.brands.length: gt 0
+  res.body.data[0].affinity.brands[0].name: isString
+  res.body.data[0].affinity.brands[0].score: isNumber
+  res.body.data[0].affinity.brands[0].absolute: isNumber
+
+  res.body.data[0].affinity.departments.length: gt 0
+  res.body.data[0].affinity.departments[0].name: isString
+  res.body.data[0].affinity.departments[0].score: isNumber
+  res.body.data[0].affinity.departments[0].absolute: isNumber
+}
+

@@ -1,0 +1,47 @@
+meta {
+  name: List departments - complete list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/departments
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gt 0
+  res.body.meta: isJson
+  res.body.meta.order: isDefined
+  res.body.meta.order.length: gt 0
+  res.body.data[0].id: isString
+  res.body.data[0].type: isString
+  res.body.data[0].attributes: isJson
+  res.body.data[0].relationships: isJson
+  res.body.data[0].links: isJson
+  res.body.data[0].attributes.id: isString
+  res.body.data[0].attributes.name: isString
+  res.body.data[0].attributes.slug: isString
+  res.body.data[0].attributes.position: isNumber
+  res.body.data[0].attributes.active: isBoolean
+  res.body.data[0].attributes.popular: isBoolean
+  res.body.data[0].attributes.color: isString
+  res.body.data[0].attributes.intro: isString
+  res.body.data[0].links.icon: isJson
+  res.body.data[0].links.icon.url: isString
+  res.body.data[0].links.icon.tiny: isJson
+  res.body.data[0].links.icon.tiny.url: isString
+  res.body.data[0].links.icon.medium: isJson
+  res.body.data[0].links.icon.medium.url: isString
+  res.body.data[0].links.desktop_banner: isJson
+  res.body.data[0].links.desktop_banner.url: isString
+  res.body.data[0].links.mobile_banner: isJson
+  res.body.data[0].links.mobile_banner.url: isString
+  res.body.data[0].relationships.categories: isJson
+  res.body.data[0].relationships.categories.data.length: gt 0
+  res.body.data[0].relationships.categories.data[0].id: isString
+  res.body.data[0].relationships.categories.data[0].type: eq "category"
+}

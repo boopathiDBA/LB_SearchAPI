@@ -1,0 +1,20 @@
+meta {
+  name: Custom Widget - invalid by_position
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/custom_widgets?by_position=non-exisiting
+  body: none
+  auth: none
+}
+
+query {
+  by_position: non-exisiting
+}
+
+assert {
+  res.status: eq 422
+  res.body.detail.length: gt 0
+}

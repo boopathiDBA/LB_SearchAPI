@@ -1,0 +1,30 @@
+meta {
+  name: Global suggestion - pagecontext body
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/global_suggessions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "query": "coffee",
+      "pagecontext_key": "department_name",
+      "pagecontext_value": "Electronics"
+  }
+}
+
+assert {
+  res.status: eq 201
+
+  res.body.suggestions: isJson
+
+  res.body.suggestions.pagecontext_suggest: isJson
+  res.body.suggestions.pagecontext_suggest.data.length: gt 0
+  res.body.suggestions.pagecontext_suggest.data[0].key: isString
+  res.body.suggestions.pagecontext_suggest.data[0].doc_count: isNumber
+}

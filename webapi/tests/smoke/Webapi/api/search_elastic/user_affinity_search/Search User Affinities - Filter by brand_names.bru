@@ -1,0 +1,25 @@
+meta {
+  name: Search User Affinities - Filter by brand_names
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/user_affinity_search
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "brand_names": ["Samsung"]
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  // Currently there are no sale_event or vouchers with brand_name values so we don't test for it here like the others...
+}

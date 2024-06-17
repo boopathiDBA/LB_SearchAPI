@@ -1,0 +1,21 @@
+meta {
+  name: Get top sale events - filter by store slug
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/top_lists/sale_events?by_store=tvc-mall
+  body: none
+  auth: none
+}
+
+query {
+  by_store: tvc-mall
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gt 0
+}

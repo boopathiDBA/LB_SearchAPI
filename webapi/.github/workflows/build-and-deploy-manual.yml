@@ -1,0 +1,44 @@
+name: build-and-deploy-prod-manual
+
+env:
+  ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'prod' }}
+  AWS_REGION: 'ap-southeast-2'
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build-python:
+    runs-on: ${{ github.ref == 'refs/heads/main' && 'wprod-ec2' || 'wprod-ec2' }}
+    environment: prod
+
+    steps:
+
+      - name: ⚙️  Check out repository code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref == 'refs/heads/main' && 'main' || github.ref }}
+
+      - name: 📋 List directory
+        run: |
+          ls -ltra
+
+      - name: 🔑 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: 🐖 Waypoint build and push
+        run: |
+          make waypoint
+
+      - name: Apply infrastructure
+        run: |
+          cd infra/aws/gateway
+          tfswitch
+          terraform init
+          terraform workspace select prod
+          terraform apply -var-file vars/prod/common.tfvars -auto-approve
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."

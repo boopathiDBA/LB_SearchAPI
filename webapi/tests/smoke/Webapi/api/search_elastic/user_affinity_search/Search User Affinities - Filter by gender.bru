@@ -1,0 +1,23 @@
+meta {
+  name: Search User Affinities - Filter by gender
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/user_affinity_search
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "affinity": {},
+      "gender": "male"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.sale_events.length: gt 0
+}

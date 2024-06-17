@@ -1,0 +1,20 @@
+meta {
+  name: Get brand by slug with auth
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/brands/apple
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.attributes.followed: isTruthy
+}

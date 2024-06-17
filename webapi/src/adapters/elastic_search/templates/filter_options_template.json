@@ -1,0 +1,72 @@
+{
+  "id": "{{args.id}}",
+  "params": {
+    "query": "{{args.query}}",
+    "size": 0,
+    "from": 0,
+    "sort": [],
+    "filter": {
+      "filter": []
+    },
+    "aggs": {
+      "stores": {
+        "terms": {
+          "field": "store_name.keyword",
+          "size": 10
+        }
+      },
+      "brands": {
+        "nested": {
+          "path": "brands"
+        },
+        "aggs": {
+          "nested_brand": {
+            "terms": {
+              "field": "brands.brand_name.keyword",
+              "size": 10
+            }
+          }
+        }
+      },
+      "departments": {
+        "nested": {
+          "path": "object_properties"
+        },
+        "aggs": {
+          "nested_dept": {
+            "terms": {
+              "field": "object_properties.department_name.keyword",
+              "size": 10
+            },
+            "aggs": {
+              "reverse": {
+                "reverse_nested": {},
+                "aggs": {
+                  "unique_count": {
+                    "cardinality": {
+                      "field": "id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "categories": {
+        "nested": {
+          "path": "object_properties"
+        },
+        "aggs": {
+          "nested_categories": {
+            "terms": {
+              "field": "object_properties.category_name.keyword",
+              "size": 10
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

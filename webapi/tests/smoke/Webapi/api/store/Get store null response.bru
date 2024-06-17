@@ -1,0 +1,15 @@
+meta {
+  name: Get store null response
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/stores/null-store
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}

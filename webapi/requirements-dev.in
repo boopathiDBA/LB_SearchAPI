@@ -1,0 +1,5 @@
+# Python dependencies for development
+black
+pytest
+# Starlette TestClient (which we use to unit test our routes) depends on httpx
+httpx

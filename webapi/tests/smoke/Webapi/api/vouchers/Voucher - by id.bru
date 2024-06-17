@@ -1,0 +1,42 @@
+meta {
+  name: Voucher - by id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/coupons/1
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.id: isDefined
+  res.body.data.type: eq coupon
+  res.body.data.attributes.name: isString
+  res.body.data.attributes.expire_at: isDefined
+  res.body.data.attributes.slug: isString
+  res.body.data.attributes.store_name: isString
+  res.body.data.attributes.discount_amount: isDefined
+  res.body.data.attributes.coupon_code: isString
+  res.body.data.attributes.coupon_type: isString
+  res.body.data.attributes.impressions_count: isNumber
+  res.body.data.attributes.is_cba_exclusive: isBoolean
+  res.body.data.attributes.offer: isString
+  res.body.data.attributes.upvotes_count: isNumber
+  res.body.data.attributes.downvotes_count: isNumber
+  res.body.data.attributes.comments_count: isNumber
+  res.body.data.attributes.click_through_count: isNumber
+  res.body.data.attributes.discount_percent: isDefined
+  res.body.data.links.coupon_url: isString
+  res.body.data.links.image_url: isString
+  res.body.data.relationships: isJson
+  res.body.included: isDefined
+  res.body.meta.order[0]: isDefined
+}

@@ -1,0 +1,22 @@
+meta {
+  name: Get top coupons - filter by coupon types
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_coupon_types[]=percentage_discount&by_coupon_types[]=free_shipping
+  body: none
+  auth: none
+}
+
+query {
+  by_coupon_types[]: percentage_discount
+  by_coupon_types[]: free_shipping
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 1
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Voucher - non existing
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/coupons/-1
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 404
+  res.body.detail: contains Voucher not found with id/slug:
+}

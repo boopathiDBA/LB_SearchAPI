@@ -1,0 +1,21 @@
+meta {
+  name: Get top stores - by_followed_user
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/top_lists/stores?by_followed_user=1050
+  body: none
+  auth: none
+}
+
+query {
+  by_followed_user: 1050
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gte 3
+}

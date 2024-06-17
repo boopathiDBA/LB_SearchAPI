@@ -1,0 +1,21 @@
+meta {
+  name: Get top brands - by department (not in database materialized view)
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/top_lists/brands?by_department=104
+  body: none
+  auth: none
+}
+
+query {
+  by_department: 104
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: eq 0
+}

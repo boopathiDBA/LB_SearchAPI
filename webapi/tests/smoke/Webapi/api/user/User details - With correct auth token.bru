@@ -1,0 +1,107 @@
+meta {
+  name: User details - With correct auth token
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/users/883
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.attributes: isJson
+  res.body.data.attributes.id: isUndefined
+  res.body.data.attributes.firstname: isUndefined
+  res.body.data.attributes.surname: isUndefined
+  res.body.data.attributes.email: isString
+  res.body.data.attributes.role: isUndefined
+  res.body.data.attributes.followers_count: isNumber
+  res.body.data.attributes.slug: isString
+  res.body.data.attributes.upvotes_count: isNumber
+  res.body.data.attributes.downvotes_count: isNumber
+  res.body.data.attributes.username: isString
+  res.body.data.attributes.avatar: isUndefined
+  res.body.data.attributes.deals_count: isNumber
+  res.body.data.attributes.coupons_count: isNumber
+  res.body.data.attributes.sale_events_count: isNumber
+  res.body.data.attributes.impressions_count: isNumber
+  res.body.data.attributes.comments_count: isNumber
+  res.body.data.attributes.upvoted_count: isNumber
+  res.body.data.attributes.downvoted_count: isNumber
+  res.body.data.attributes.gender: isUndefined
+  res.body.data.attributes.public_profile_settings: isJson
+  res.body.data.attributes.public_profile_settings.show_activity_feed: isBoolean
+  res.body.data.attributes.public_profile_settings.show_followed_brands: isBoolean
+  res.body.data.attributes.public_profile_settings.show_followed_stores: isBoolean
+  res.body.data.attributes.public_profile_settings.show_followed_coupons: isBoolean
+  res.body.data.attributes.public_profile_settings.show_followed_products: isBoolean
+  res.body.data.attributes.public_profile_settings.show_followed_spotters: isBoolean
+  res.body.data.attributes.public_profile_settings.show_followed_price_drops: isBoolean
+  res.body.data.attributes.public_profile_settings.show_followed_upcoming_sales: isBoolean
+  res.body.data.attributes.about_complete: isBoolean
+  res.body.data.attributes.location_state: isUndefined
+  res.body.data.attributes.phone_number: isUndefined
+  res.body.data.attributes.hide_popup: isBoolean
+  res.body.data.attributes.popup_count: isNumber
+  res.body.data.attributes.department_followed: isBoolean
+  res.body.data.attributes.brand_followed: isBoolean
+  res.body.data.attributes.store_followed: isBoolean
+  res.body.data.attributes.notification_status: isBoolean
+  res.body.data.attributes.notification_setting: isJson
+  res.body.data.attributes.notification_setting.id: isNumber
+  res.body.data.attributes.notification_setting.user_id: isNumber
+  res.body.data.attributes.notification_setting.global: isDefined
+  res.body.data.attributes.notification_setting.alerts: isDefined
+  res.body.data.attributes.notification_setting.popup_count: isNumber
+  res.body.data.attributes.notification_setting.hide_popup: isBoolean
+  res.body.data.attributes.notification_setting.favourites_state: isString
+  res.body.data.links: isJson
+  res.body.data.links: isJson
+  res.body.data.links.user_url: isString
+  res.body.data.links.avatar: isJson
+  res.body.data.links.avatar.url: isString
+  res.body.data.links.avatar.mini: isJson
+  res.body.data.links.avatar.mini.url: isString
+  res.body.data.links.avatar.thumb: isJson
+  res.body.data.links.avatar.thumb.url: isString
+  res.body.data.type: isString
+}
+
+tests {
+  // pm.test("status code matches", () => {
+  //   pm.response.to.have.status(200)
+  // })
+  // 
+  // const jsonData = pm.response.json();
+  // pm.test("match keys at root level", () => {
+  //   pm.expect(jsonData).to.have.keys(
+  // ["id", "type", "attributes", "links"]
+  //   )
+  // })
+  // pm.test("match attributes keys", () => {
+  //   pm.expect(jsonData.attributes).to.have.keys(
+  // [
+  //   "id", "email", "followers_count", 
+  //   "slug", "upvotes_count", "downvotes_count", "username", "avatar", 
+  //   "deals_count", "coupons_count", "sale_events_count", 
+  //   "impressions_count", "comments_count", "upvoted_count", 
+  //   "downvoted_count", "public_profile_settings", "about", 
+  //   "dob", "active", 
+  //   "notification_setting"
+  // ]
+  //   )
+  // })
+  // 
+  // pm.test("match links keys", () => {
+  //   pm.expect(jsonData).to.have.keys(
+  // ["id", "type", "attributes", "links"]
+  //   )
+  // })
+}

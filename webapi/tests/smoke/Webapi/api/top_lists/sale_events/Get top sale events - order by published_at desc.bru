@@ -1,0 +1,31 @@
+meta {
+  name: Get top sale events - order by published_at desc
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/top_lists/sale_events?by_order[column]=published_at&per_page=2&by_order[direction]=desc
+  body: none
+  auth: none
+}
+
+query {
+  by_order[column]: published_at
+  per_page: 2
+  by_order[direction]: desc
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("results are sorted by published_at in ascending order", () => {
+      const itemDates = res.body.data.map(item => item.attributes.published_at)
+      const sortedItemDates = [...itemDates].sort((a, b) => {
+        return new Date(b) - new Date(a);
+      })
+      expect(itemDates).to.eql(sortedItemDates)
+  })
+}

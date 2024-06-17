@@ -1,0 +1,22 @@
+meta {
+  name: Get top coupons - filter by many brands
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_brands[]=88612&by_brands[]=75707
+  body: none
+  auth: none
+}
+
+query {
+  by_brands[]: 88612
+  by_brands[]: 75707
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 1
+}

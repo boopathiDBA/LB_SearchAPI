@@ -1,0 +1,17 @@
+meta {
+  name: Get store by slug
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/stores/big-w
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.attributes.slug: eq "big-w"
+  res.body.data.attributes.followed: isFalsy
+}

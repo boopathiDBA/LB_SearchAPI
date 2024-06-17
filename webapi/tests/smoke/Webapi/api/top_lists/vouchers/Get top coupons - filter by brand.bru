@@ -1,0 +1,21 @@
+meta {
+  name: Get top coupons - filter by brand
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_brand=adidas
+  body: none
+  auth: none
+}
+
+query {
+  by_brand: adidas
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 0
+}

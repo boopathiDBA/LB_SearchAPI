@@ -1,0 +1,16 @@
+meta {
+  name: Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 201
+  res.body.status: eq "logged in"
+}

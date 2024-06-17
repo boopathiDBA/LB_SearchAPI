@@ -1,0 +1,25 @@
+meta {
+  name: Get top stores - default
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/top_lists/stores
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gt 0
+  res.body.meta: isJson
+  res.body.meta.order.length: gt 0
+  res.body.data[0].id: isString
+  res.body.data[0].type: isString
+  res.body.data[0].links: isJson
+  res.body.data[0].attributes: isJson
+  res.body.data[0].attributes.slug: isString
+  res.body.data[0].attributes.name: isString
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Get top coupons - filter by category
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_category=1468
+  body: none
+  auth: none
+}
+
+query {
+  by_category: 1468
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 0
+}

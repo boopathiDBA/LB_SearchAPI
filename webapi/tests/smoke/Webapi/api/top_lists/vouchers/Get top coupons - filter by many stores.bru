@@ -1,0 +1,22 @@
+meta {
+  name: Get top coupons - filter by many stores
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_stores[]=189&by_stores[]=988056
+  body: none
+  auth: none
+}
+
+query {
+  by_stores[]: 189
+  by_stores[]: 988056
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 1
+}

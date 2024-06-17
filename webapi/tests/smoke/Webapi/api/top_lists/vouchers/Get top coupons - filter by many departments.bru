@@ -1,0 +1,22 @@
+meta {
+  name: Get top coupons - filter by many departments
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_departments[]=94&by_departments[]=89
+  body: none
+  auth: none
+}
+
+query {
+  by_departments[]: 94
+  by_departments[]: 89
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 1
+}

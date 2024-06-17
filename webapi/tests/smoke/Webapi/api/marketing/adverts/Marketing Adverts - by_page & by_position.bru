@@ -1,0 +1,21 @@
+meta {
+  name: Marketing Adverts - by_page & by_position
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/marketing/adverts?by_page=listing&by_position=middle
+  body: none
+  auth: none
+}
+
+query {
+  by_page: listing
+  by_position: middle
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.length: gte 2
+}

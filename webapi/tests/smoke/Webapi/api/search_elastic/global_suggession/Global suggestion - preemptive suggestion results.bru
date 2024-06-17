@@ -1,0 +1,32 @@
+meta {
+  name: Global suggestion - preemptive suggestion results
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/global_suggessions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "query": "tech"
+  }
+}
+assert {
+  res.status: eq 201
+
+  res.body.suggestions: isJson
+
+  res.body.suggestions.preemptive_category_suggestion: isJson
+  res.body.suggestions.preemptive_category_suggestion.data.length: gt 0
+  res.body.suggestions.preemptive_category_suggestion.data[0].key: isString
+  res.body.suggestions.preemptive_category_suggestion.data[0].doc_count: isNumber
+
+  res.body.suggestions.preemptive_subcategory_suggestion: isJson
+  res.body.suggestions.preemptive_subcategory_suggestion.data.length: gt 0
+  res.body.suggestions.preemptive_subcategory_suggestion.data[0].key: isString
+  res.body.suggestions.preemptive_subcategory_suggestion.data[0].doc_count: isNumber
+}

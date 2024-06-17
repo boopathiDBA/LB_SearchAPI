@@ -1,0 +1,26 @@
+meta {
+  name: List categories - by_active false
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/categories?by_department=87&by_active=false
+  body: none
+  auth: none
+}
+
+query {
+  by_department: 87
+  by_active: false
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.length: gt 0
+  res.body.data[0].attributes.active: isFalsy
+}

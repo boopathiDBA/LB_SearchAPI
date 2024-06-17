@@ -1,0 +1,23 @@
+meta {
+  name: Marketing Adverts - by_department slug
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/marketing/adverts?by_page=listing&by_position=middle&by_department=fashion
+  body: none
+  auth: none
+}
+
+query {
+  by_page: listing
+  by_position: middle
+  by_department: fashion
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: length 1
+  res.body.data[0].id: eq "86"
+}

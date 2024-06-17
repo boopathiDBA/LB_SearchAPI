@@ -1,0 +1,22 @@
+meta {
+  name: List brand by followed user
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/brands?followed_by=1039
+  body: none
+  auth: none
+}
+
+query {
+  followed_by: 1039
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.length: gt 0
+  res.body.meta.order.length: gt 0
+  res("data.attributes.followed"): notContains false
+}

@@ -1,0 +1,21 @@
+meta {
+  name: List brand null response
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/brands?followed_by=0000
+  body: none
+  auth: none
+}
+
+query {
+  followed_by: 0000
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: length 0
+  res.body.meta.order: length 0
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Marketing Adverts - Non existing by_department
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/marketing/adverts?by_page=listing&by_position=middle&by_department=9999
+  body: none
+  auth: none
+}
+
+query {
+  by_page: listing
+  by_position: middle
+  by_department: "Flights, Travel 
+   Accommodation": 
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gte 2
+}

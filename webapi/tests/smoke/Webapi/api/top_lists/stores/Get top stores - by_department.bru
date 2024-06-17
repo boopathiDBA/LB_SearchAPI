@@ -1,0 +1,21 @@
+meta {
+  name: Get top stores - by_department
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/top_lists/stores?by_department=86
+  body: none
+  auth: none
+}
+
+query {
+  by_department: 86
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: eq 0
+}

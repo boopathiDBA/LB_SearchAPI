@@ -1,0 +1,22 @@
+meta {
+  name: Voucher - by slug
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/coupons/new-coupon
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.included: isDefined
+  res.body.meta: isDefined
+}

@@ -1,0 +1,37 @@
+meta {
+  name: Sale Event Filter Options - field-store_name
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/filter_options
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "id": "sale_event_search",
+      "query": "off",
+      "field": "store_name",
+      "per_page": 50,
+      "is_top_deal": null,
+      "store_name": [],
+      "brand_name": [],
+      "department_name": [],
+      "category_name": [],
+      "subcategory_name": [],
+      "price": [],
+      "last_price_date": [],
+      "price_shift": []
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.options: isDefined
+  res.body.options.length: gt 0
+  res.body.options[0].key: isString
+  res.body.options[0].doc_count: isNumber
+}

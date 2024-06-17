@@ -1,0 +1,32 @@
+meta {
+  name: Get top brands - default with auth
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/top_lists/brands
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token-webapi-automated-test-user-uat}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  // User has been set up to follow these brands
+  const userFollowedBrandSlug = ["lego", "nike", "apple", "sony"]
+
+  test(`followed is true for user followed brands: [${userFollowedBrandSlug.join(", ")}]`, () => {
+    for (const brand of res.body.data) {
+      if (brand.attributes.slug in userFollowedBrandSlug) {
+        expect(brand.attributes.followed).equals(true)
+      }
+    }
+  })
+}

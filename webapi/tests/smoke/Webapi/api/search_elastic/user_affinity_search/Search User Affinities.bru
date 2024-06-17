@@ -1,0 +1,39 @@
+meta {
+  name: Search User Affinities
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/user_affinity_search
+  body: json
+  auth: none
+}
+
+body:json {
+  {}
+}
+
+assert {
+  res.status: eq 200
+  res.body.sale_events.length: gt 0
+  res.body.sale_events[0].id: isString
+  res.body.sale_events[0].start_at: isString
+  res.body.sale_events[0].expire_at: isString
+  res.body.sale_events[0].slug: isString
+  res.body.sale_events[0].archived_at: isString
+  res.body.sale_events[0].store_logo: isString
+  res.body.sale_events[0].department_name: isString
+  res.body.sale_events[0].brand_name: isDefined
+  res.body.sale_events[0].category_name: isString
+  res.body.sale_events[0].store_name: isString
+  res.body.sale_events[0].sale_event_image: isString
+  res.body.sale_events[0].offer_text: isString
+  res.body.sale_events[0].impressions_count: isString
+  res.body.sale_events[0].fixed_global_score: isString
+  res.body.sale_events[0].type: isDefined
+}
+
+tests {
+  // UAT doesn't consistenly have any voucher data, therefore only run if found in results.
+}

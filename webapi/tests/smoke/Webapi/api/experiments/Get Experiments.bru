@@ -1,0 +1,35 @@
+meta {
+  name: Get Experiments
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/experiments
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.created: isNumber
+  res.body.changed: isNumber
+  res.body.deleted: isNumber
+  res.body.data: isJson
+  res.body.data.created.length: gt 0 
+  res.body.data.changed.length: gt 0 
+  res.body.data.deleted: isDefined
+  res.body.data.created[1]: isJson
+  res.body.data.created[1].id: isNumber
+  res.body.data.created[1].name: isString
+  res.body.data.created[1].state: isString
+  res.body.data.created[1].active: isBoolean
+  res.body.data.created[1].version: isNumber
+  res.body.data.created[1].variants.length: gt 0
+  res.body.data.created[1].variants[1].id: isNumber
+  res.body.data.created[1].variants[1].name: isString
+  res.body.data.created[1].variants[1].weight: isString
+  res.body.data.created[1].variants[1].content: isString
+  res.body.data.created[1].variants[1].property: isDefined
+}
+

@@ -1,0 +1,22 @@
+meta {
+  name: Get top sale events - filter by many departments
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/top_lists/sale_events?by_departments[]=86&by_departments[]=90
+  body: none
+  auth: none
+}
+
+query {
+  by_departments[]: 86
+  by_departments[]: 90
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gt 0
+}

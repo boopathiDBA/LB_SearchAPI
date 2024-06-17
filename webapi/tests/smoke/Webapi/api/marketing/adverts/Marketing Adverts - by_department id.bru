@@ -1,0 +1,23 @@
+meta {
+  name: Marketing Adverts - by_department id
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/marketing/adverts?by_page=listing&by_position=middle&by_department=94
+  body: none
+  auth: none
+}
+
+query {
+  by_page: listing
+  by_position: middle
+  by_department: 94
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: length 1
+  res.body.data[0].id: eq "86"
+}

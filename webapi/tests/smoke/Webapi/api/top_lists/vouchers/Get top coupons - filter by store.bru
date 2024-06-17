@@ -1,0 +1,21 @@
+meta {
+  name: Get top coupons - filter by store
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/top_lists/coupons?by_store=zara
+  body: none
+  auth: none
+}
+
+query {
+  by_store: zara
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  ~res.body.data.length: gt 0
+}

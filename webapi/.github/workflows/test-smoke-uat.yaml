@@ -1,0 +1,36 @@
+name: test-smoke-uat
+
+on:
+  workflow_run:
+    workflows: [ build-and-deploy ]
+    types: [ completed ]
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  on-workflow-success:
+    runs-on: 'wuat-ec2'
+    environment: uat
+    # Trigger when the build workflow succeeded. Also allow to always run when workflow is manually run
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: ⚙️ Check out repository code
+        uses: actions/checkout@v3
+
+      - name: 🧪 Run API tests against local webapi container
+        run: docker-compose up --build --abort-on-container-exit --always-recreate-deps --force-recreate --exit-code-from test-smoke-uat test-smoke-uat
+
+      - name: 🔎 Show Test logs
+        if: always()
+        run: docker-compose logs test-smoke-uat
+
+      - name: 🐳 Clean up containers
+        if: always()
+        run: docker-compose down --rmi local  # This kills the contains and also removes the images.
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."

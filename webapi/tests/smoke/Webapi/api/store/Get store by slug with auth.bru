@@ -1,0 +1,21 @@
+meta {
+  name: Get store by slug with auth
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/stores/big-w
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token-user-evani}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.attributes.slug: eq "big-w"
+  res.body.data.attributes.followed: isTruthy
+}

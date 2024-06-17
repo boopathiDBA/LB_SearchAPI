@@ -1,0 +1,22 @@
+meta {
+  name: Global suggestion - missing pagecontext_key
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/global_suggessions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "query": "coffee",
+      "pagecontext_value": "Electronics"
+  }
+}
+
+assert {
+    res.status: eq 422
+}

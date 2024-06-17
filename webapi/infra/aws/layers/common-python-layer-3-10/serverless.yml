@@ -1,0 +1,41 @@
+service: common-python-layer-3-10
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: "ap-southeast-2"
+  tracing:
+    lambda: true
+  logs:
+    frameworkLambda: true
+  runtime: python3.10
+  timeout: 90
+  tags:
+    Project: "https://github.com/little-birdie/webapi"
+    Environment: "${sls:stage}"
+    team: "Platform Engineering"
+    Revision: "${sls:stage}"
+    service_name: "common-python-layer"
+    Maintainer_Software: "Serverless Framework"
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    layer:
+      name: "${sls:stage}-common-python-layer-3-10"
+      description: Python requirements lambda layer
+      compatibleRuntimes:
+        - python3.10
+      licenseInfo: GPLv3
+      allowedAccounts:
+        - '*'
+    dockerizePip: true
+    fileName: "../../../../requirements.txt"
+    pythonBin: python3
+    useDownloadCache: false
+    useStaticCache: false
+    cacheLocation: '.cache'
+    vendor: ./vendored-libraries

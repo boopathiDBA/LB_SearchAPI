@@ -1,0 +1,10 @@
+# Github workflow that will automatically scan for outdated dependencies and create pull requests to update them
+#
+# See documentation tutorial for more information: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuring-dependabot-version-updates
+
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/" # Location of package manifests (requirements.txt, requirements-dev.txt)
+    schedule:
+      interval: "daily" # how often to run

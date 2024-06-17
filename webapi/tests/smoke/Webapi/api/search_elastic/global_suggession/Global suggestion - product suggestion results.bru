@@ -1,0 +1,28 @@
+meta {
+  name: Global suggestion - product suggestion results
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/global_suggessions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "query": "coffee"
+  }
+}
+
+assert {
+  res.status: eq 201
+
+  res.body.suggestions: isJson
+
+  res.body.suggestions.product_suggestion: isJson
+  res.body.suggestions.product_suggestion.data.length: gt 0
+  res.body.suggestions.product_suggestion.data[0].key: isString
+  res.body.suggestions.product_suggestion.data[0].doc_count: isNumber
+}

@@ -1,0 +1,19 @@
+meta {
+  name: User details - When user doesn-t exist
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/users/-1
+  body: none
+  auth: none
+}
+
+headers {
+  X-Auth-Token: {{x-auth-token}}
+}
+
+assert {
+  res.status: eq 404
+}

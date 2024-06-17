@@ -1,0 +1,11 @@
+# Python dependencies for application
+fastapi
+uvicorn[standard]
+Jinja2
+requests
+psycopg2-binary
+PyJWT
+pytz
+email-validator
+python-json-logger
+sentry-sdk

@@ -1,0 +1,36 @@
+meta {
+  name: Unauthorized request with invalid token
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/voucher
+  body: json
+  auth: none
+}
+
+headers {
+  X-Auth-Token: INVALID_TOKEN
+}
+
+body:json {
+  {
+      "query": "off",
+      "per_page": 48,
+      "from": 0,
+      "order": null,
+      "value": null,
+      "store_names": [],
+      "brand_names": [],
+      "department_names": ["Fashion"],
+      "category_names": [],
+      "subcategory_names": []
+  }
+}
+
+assert {
+  res.status: eq 401
+
+  res.body.detail: eq "Unauthorized"
+}

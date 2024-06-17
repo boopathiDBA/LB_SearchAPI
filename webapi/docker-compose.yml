@@ -1,0 +1,36 @@
+version: "3"
+services:
+  # Local webapi service on port 8080
+  webapi:
+    container_name: webapi
+    build:
+      dockerfile: .docker/webapi/Dockerfile
+      context: .
+    environment:
+      - DATABASE_PASSWORD
+      - JWT_SIGNING_KEY
+      - BRAZE_API_KEY
+    ports:
+      - 8080:8080
+
+  # Smoke test of UAT environment
+  test-smoke-uat:
+    build:
+      dockerfile: .docker/test/smoke/Dockerfile
+      context: .
+    # See documentation below for understanding grep usage
+    command: sh -c "bru run -r --env webapi-uat" | grep success | grep -v failed
+
+  # Smoke test of local docker service
+  test-smoke-local-docker:
+    depends_on:
+      - webapi
+    build:
+      dockerfile: .docker/test/smoke/Dockerfile
+      context: .
+    # below sleep is a hack to ensure webapi container is up and running successfully before running tests.
+    # Grep for success to ensure that when there is an error such as missing environment files that it errors. Bruno doesn't exit with error code.
+    # Grep -v to ensure no logs with failed
+    command: >
+      sh -c "sleep 2
+      && bru run -r --env webapi-local api --env-var baseUrl=http://webapi:8080/api" | grep success | grep -v failed

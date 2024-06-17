@@ -1,0 +1,22 @@
+meta {
+  name: Get top sale events - filter by store ids
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/top_lists/sale_events?by_stores[]=8&by_stores[]=1011957
+  body: none
+  auth: none
+}
+
+query {
+  by_stores[]: 8
+  by_stores[]: 1011957
+}
+
+assert {
+  res.status: eq 200
+  res.body.data: isDefined
+  res.body.data.length: gt 0
+}

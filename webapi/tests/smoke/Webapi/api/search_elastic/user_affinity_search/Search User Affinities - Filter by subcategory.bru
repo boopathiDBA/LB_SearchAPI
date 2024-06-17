@@ -1,0 +1,27 @@
+meta {
+  name: Search User Affinities - Filter by subcategory
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/user_affinity_search
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "affinity": {},
+      "subcategory": ["Computer"],
+      "gender": ""
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  // Currently there doesn't seem to be any difference when subcategory filter is configured.
+}

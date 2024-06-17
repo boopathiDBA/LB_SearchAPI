@@ -1,0 +1,71 @@
+meta {
+  name: Search User Affinities - with affinity
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/search_elastic/user_affinity_search
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "affinity": {
+          "brands": [],
+          "stores": [
+              {
+                  "name": "Catch",
+                  "score": 1,
+                  "absolute": 34
+              }
+          ],
+          "departments": [
+              {
+                  "name": "Fashion",
+                  "score": 1,
+                  "absolute": 11
+              },
+              {
+                  "name": "Electronics",
+                  "score": 0.7272727272727273,
+                  "absolute": 8
+              },
+              {
+                  "name": "Home & Kitchen",
+                  "score": 0.18181818181818182,
+                  "absolute": 2
+              }
+          ],
+          "categories": [
+              {
+                  "name": "Phones, Smart Watches & Accessories",
+                  "score": 1,
+                  "absolute": 21
+              },
+              {
+                  "name":"Women's Activewear",
+                  "score": 0.5714285714285714,
+                  "absolute": 12
+              },
+              {
+                  "name":"Men's Activewear",
+                  "score": 0.2857142857142857,
+                  "absolute": 6
+              },
+              {
+                  "name": "Audio & Headphones",
+                  "score": 0.14285714285714285,
+                  "absolute": 3
+              }
+          ],
+          "subcategories": []
+      }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.sale_events.length: gt 0
+}

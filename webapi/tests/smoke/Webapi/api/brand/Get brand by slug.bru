@@ -1,0 +1,16 @@
+meta {
+  name: Get brand by slug
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/brands/adidas
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.data.attributes.followed: isFalsy
+}
